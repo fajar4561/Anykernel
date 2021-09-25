@@ -1,0 +1,160 @@
+# SPECTRUM KERNEL MANAGER
+# Ramdisk file for profile based kernel management
+
+# Initialization
+on property:sys.boot_completed=1
+   # Set default profile on first boot
+   exec u:r:init:s0 root root -- /init.spectrum.sh
+   exec u:r:su:s0 root root -- /init.spectrum.sh
+   # Enable Spectrum support
+   setprop spectrum.support 1
+   # Add kernel name
+   setprop persist.spectrum.kernel Signature
+
+# Balance (default profile)
+on property:persist.spectrum.profile=0
+	write /sys/kernel/debug/tracing/options/trace_printk 0
+	write /proc/sys/net/ipv4/tcp_timestamps 0
+	write /proc/sys/kernel/sched_enable_thread_grouping 1
+	write /proc/sys/kernel/randomize_va_space 0
+	write /proc/sys/vm/compact_unevictable_allowed 0
+	write /proc/sys/vm/stat_interval 10
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 1
+	write /proc/sys/kernel/random/write_wakeup_threshold 128
+	write /proc/sys/kernel/random/read_wakeup_threshold 64
+	write /proc/sys/kernel/sched_latency_ns 10000100
+	write /sys/module/cpu_boost/parameters/input_boost_ms 0
+	write /sys/module/cpu_boost/parameters/input_boost_freq "0:0 1:0 2:0 3:0 4:0 5:0 6:0 7:0"
+	write /proc/sys/kernel/sched_upmigrate 96
+	write /proc/sys/kernel/sched_downmigrate 90
+	write /proc/sys/kernel/sched_boost 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor signature
+	write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor signature
+	write /sys/kernel/gpu/gpu_min_clock 160
+	write /sys/module/adreno_idler/parameters/adreno_idler_active Y
+	write /sys/module/rcutree/parameters/rcu_idle_gp_delay 12
+	write /sys/module/rcutree/parameters/rcu_idle_lazy_gp_delay 1800
+
+# Performance
+on property:persist.spectrum.profile=1
+        write /sys/kernel/debug/tracing/options/trace_printk 0
+        write /proc/sys/net/ipv4/tcp_timestamps 0
+	write /proc/sys/kernel/sched_enable_thread_grouping 1
+	write /proc/sys/kernel/randomize_va_space 0
+	write /proc/sys/vm/compact_unevictable_allowed 0
+	write /proc/sys/vm/stat_interval 10
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 1
+	write /proc/sys/kernel/random/write_wakeup_threshold 128
+	write /proc/sys/kernel/random/read_wakeup_threshold 128
+	write /proc/sys/kernel/sched_latency_ns 9000000
+	write /proc/sys/kernel/sched_upmigrate 70
+	write /proc/sys/kernel/sched_downmigrate 40
+	write /proc/sys/kernel/sched_boost 1
+	write /sys/module/cpu_boost/parameters/input_boost_freq "0:1612800 1:1612800 2:1612800 3:0 4:1612800 5:1804800 6:0 7:1804800"
+	write /sys/module/cpu_boost/parameters/input_boost_ms 350
+	write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+	write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/powersave_bias 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/align_windows 1
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_duration 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/fast_ramp_down 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/boost 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/powersave_bias 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/align_windows 1
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/fast_ramp_down 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 60
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 60
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1843200
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 2208000
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 40000
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads 0
+	write /sys/kernel/gpu/gpu_min_clock 160
+	write /sys/module/adreno_idler/parameters/adreno_idler_active Y
+	write /sys/module/rcutree/parameters/rcu_idle_gp_delay 4
+	write /sys/module/rcutree/parameters/rcu_idle_lazy_gp_delay 400
+
+# Battery
+on property:persist.spectrum.profile=2
+        write /sys/kernel/debug/tracing/options/trace_printk 0
+        write /proc/sys/net/ipv4/tcp_timestamps 0
+	write /proc/sys/kernel/sched_enable_thread_grouping 1
+	write /proc/sys/kernel/randomize_va_space 0
+	write /proc/sys/vm/compact_unevictable_allowed 0
+	write /proc/sys/vm/stat_interval 10
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 1
+	write /proc/sys/kernel/random/write_wakeup_threshold 128
+	write /proc/sys/kernel/random/read_wakeup_threshold 64
+	write /proc/sys/kernel/sched_latency_ns 11100000
+	write /sys/module/cpu_boost/parameters/input_boost_ms 0
+	write /sys/module/cpu_boost/parameters/input_boost_freq "0:0 1:0 2:0 3:0 4:0 5:0 6:0 7:0"
+	write /proc/sys/kernel/sched_upmigrate 96
+	write /proc/sys/kernel/sched_downmigrate 90
+	write /proc/sys/kernel/sched_boost 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor signature
+	write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor signature
+	write /sys/kernel/gpu/gpu_min_clock 160
+	write /sys/module/adreno_idler/parameters/adreno_idler_active Y
+	write /sys/module/rcutree/parameters/rcu_idle_gp_delay 12
+	write /sys/module/rcutree/parameters/rcu_idle_lazy_gp_delay 1800
+
+# Gaming
+on property:persist.spectrum.profile=3
+        write /sys/kernel/debug/tracing/options/trace_printk 0
+        write /proc/sys/net/ipv4/tcp_timestamps 0
+	write /proc/sys/kernel/sched_enable_thread_grouping 1
+	write /proc/sys/kernel/randomize_va_space 0
+	write /proc/sys/vm/compact_unevictable_allowed 0
+	write /proc/sys/vm/stat_interval 10
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres "0 0 0 0"
+	write /sys/devices/system/cpu/cpu4/core_ctl/min_cpus 1
+	write /proc/sys/kernel/random/write_wakeup_threshold 128
+	write /proc/sys/kernel/random/read_wakeup_threshold 128
+	write /proc/sys/kernel/sched_latency_ns 9000000
+	write /proc/sys/kernel/sched_upmigrate 70
+	write /proc/sys/kernel/sched_downmigrate 40
+	write /proc/sys/kernel/sched_boost 1
+	write /sys/module/cpu_boost/parameters/input_boost_freq "0:1612800 1:1612800 2:1612800 3:0 4:1804800 5:1804800 6:0 7:1804800"
+	write /sys/module/cpu_boost/parameters/input_boost_ms 350
+	write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+	write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boost 1
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/powersave_bias 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/align_windows 1
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse_duration 200
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/fast_ramp_down 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/boost 1
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/powersave_bias 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/align_windows 1
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration 200
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/fast_ramp_down 0
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 60
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 60
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1843200
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 2208000
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 40000
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
+	write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads 0
+	write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads 0
+	write /sys/kernel/gpu/gpu_min_clock 430
+	write /sys/module/adreno_idler/parameters/adreno_idler_active N
+	write /sys/module/rcutree/parameters/rcu_idle_gp_delay 4
+	write /sys/module/rcutree/parameters/rcu_idle_lazy_gp_delay 400
