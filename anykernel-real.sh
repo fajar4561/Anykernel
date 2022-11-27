@@ -21,7 +21,7 @@ device.name2=X00T
 device.name3=Zenfone Max Pro M1 (X00TD)
 device.name4=ASUS_X00TD
 device.name5=ASUS_X00T
-supported.versions=8.0-12.0
+supported.versions=9.0-13.0
 supported.patchlevels=
 '; } # end properties
 
@@ -99,6 +99,17 @@ fi
 if [ -e $ramdisk/etc/init.aurora.rc ];then
   rm -rf $ramdisk/etc/init.aurora.rc
   ui_print "delete /etc/init.aurora.rc"
+fi
+
+# patch android version
+android_ver=$(file_getprop /system/build.prop ro.build.version.release);
+if [ $android_ver -lt 12 ];then
+   patch_cmdline androidboot.version androidboot.version=9
+   ui_print "Patching Android 9-11"
+fi
+if [ $android_ver -gt 11 ];then
+   patch_cmdline androidboot.version androidboot.version=12
+   ui_print "Patching Android 12-13"
 fi
 
 # end ramdisk changes
