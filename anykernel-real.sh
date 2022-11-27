@@ -103,14 +103,7 @@ fi
 
 # patch android version
 android_ver=$(file_getprop /system/build.prop ro.build.version.release);
-if [ $android_ver -lt 12 ];then
-   patch_cmdline androidboot.version androidboot.version=9
-   ui_print "Patching Android 9-11"
-fi
-if [ $android_ver -gt 11 ];then
-   patch_cmdline androidboot.version androidboot.version=12
-   ui_print "Patching Android 12-13"
-fi
+patch_cmdline androidboot.version androidboot.version=android_ver
 
 # end ramdisk changes
 
