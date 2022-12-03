@@ -568,6 +568,11 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
+if [ -f changelogs ]; then
+  ui_printfile changelogs;
+  ui_print " ";
+fi;
+
 ui_print "- Done";
 ui_print " " "_________________________________________________";
 ui_print " " "$MESSAGE_WORD" "_________________________________________________" " ";
