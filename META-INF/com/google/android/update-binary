@@ -496,7 +496,7 @@ EASPerfHAL() {
 	$BB mount -o rw,remount -t auto /system;
     $BB mount -o rw,remount -t auto /vendor 2>/dev/null;
     
-    ui_print "- Menginstall Perf HAL EAS sebagai Modul...";
+    ui_print "- Installing Perf HAL EAS as Module...";
     
 	cp -af $PerfHALDir /data/adb/modules
 	chmod -R 755 /data/adb/modules/SDM660PerfHAL
@@ -504,14 +504,14 @@ EASPerfHAL() {
 	
 	if [ ! -f /vendor/etc/perf/targetresourceconfigs.xml.bkp ] && [ ! -f /vendor/etc/perf/targetconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/perfboostsconfig.xml.bkp ] && [ ! -f /vendor/etc/perf/commonresourceconfigs.xml.bkp ];then
 	
-	ui_print "- Mencadangkan Perf HAL lama...";
+	ui_print "- Backup old Perf HAL ...";
 	
 	cp -af /vendor/etc/perf/targetresourceconfigs.xml /vendor/etc/perf/targetresourceconfigs.xml.bkp
 	cp -af /vendor/etc/perf/targetconfig.xml /vendor/etc/perf/targetconfig.xml.bkp
 	cp -af /vendor/etc/perf/perfboostsconfig.xml /vendor/etc/perf/perfboostsconfig.xml.bkp
 	cp -af /vendor/etc/perf/commonresourceconfigs.xml /vendor/etc/perf/commonresourceconfigs.xml.bkp
 	fi;
-	ui_print "- Menginstall Perf HAL EAS...";
+	ui_print "- Installing New Perf HAL EAS...";
 	
 	cp -af $PerfHALDir/system/vendor/etc/perf/targetresourceconfigs.xml /vendor/etc/perf/targetresourceconfigs.xml
 	cp -af $PerfHALDir/system/vendor/etc/perf/targetconfig.xml /vendor/etc/perf/targetconfig.xml
