@@ -597,6 +597,12 @@ do_modules;
 AddSpectrum;
 EASPerfHAL;
 
+if [ -f changelogs ]; then
+  ui_print " ";
+  ui_printfile changelogs;
+  ui_print " ";
+fi;
+
 debugging;
 restore_env;
 if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
