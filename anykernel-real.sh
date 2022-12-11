@@ -103,7 +103,7 @@ fi
 
 # patch android version
 android_ver=$(file_getprop /system/build.prop ro.build.version.release);
-patch_cmdline androidboot.version androidboot.version=android_ver
+patch_cmdline androidboot.version androidboot.version=$android_ver
 
 # Switch Vibration Type
 if [ "$android_ver" -lt "11" ];then
